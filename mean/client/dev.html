@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>::: ASSurf events test page :::</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="/gunzip.min.js.sample"></script>
+</head>
+<body>
+    <div class="pure-g" style="margin: 5px">
+        <div class="pure-u-1-3">
+                <button class="pure-button pure-button-primary" onclick="authorize()">Authorize</button>
+
+            <form class="pure-form pure-form-stacked">
+
+                <input type="text" name="event" id="event" placeholder="Event"><br>
+                <textarea name="params" id="params" rows="6" cols="40" placeholder="Params"></textarea>
+                <button type="button" value="submit" class="pure-button pure-button-primary" onclick="sendEvent()">
+                    Send event
+                </button>
+            </form>
+
+            <div class="pure-u">
+                <br>
+                <form class="pure-form" id="listen-to">
+                    <legend>Listen to:</legend>
+                </form>
+            </div>
+
+            <h4>Examples</h4>
+            <div class="examples">
+                <p><a href="#" onclick="exampleWeather(); return false;">Example for weather history params</a></p>
+                <p><a href="#" onclick="exampleFacility(); return false;">Example for facility drilldown  </a></p>
+                <p><a href="#" onclick="exampleActualPredictedEnergy()">Example for actual vs predicted energy</a></p>
+            </div>
+        </div>
+        <div class="pure-u-2-3">
+            <form class="pure-form">
+                <p>Result</p>
+                <textarea id="textarea" style="width: 600px; height: 400px; font-size:12px"></textarea>
+
+
+                <label for="prettify" class="pure-checkbox">
+                    <input id="prettify" type="checkbox" checked> Prettify JSON output
+                </label>
+
+                <button class="pure-button pure-button-primary" onclick="reconnect(); return false;">Reconnect</button>
+                <button class="pure-button pure-button-primary" onclick="clearTextArea(); return false;">Clear</button>
+            </form>
+            <div class="pure-u">
+                <p><a href="#" onclick="exampleGetPresentationData(); return false;">getPresentationData</a></p>
+                <p><a href="#" onclick="exampleGetDeviceInfo(); return false;">getDeviceInfo</a></p>
+                <p><a href="#" onclick="exampleGetDeviceConfig(); return false;">getDeviceConfig</a></p>
+            </div>
+        </div>
+        <div class="pure-u-2-3">Git hash : <a href="https://github.com/Brightergy/Core/commit/git_rev_ph">git_rev_ph</a></div>
+        <div id="container">
+        </div>
+    </div>
+
+    <script>
+        function addText(text) {
+            var area = document.getElementById("textarea");
+            area.value += text + "\n";
+        }
+
+        var eventLst = [];
+        var io = io();
+
+        var addToListenList = function(id, checked) {
+            var element = '<label for="chk_box_' + id + '" class="pure-checkbox"> \
+                <input id="chk_box_' + id + '" type="checkbox" value="" \
+                onclick="changeListen(this, ' + "'" +  id + "'" + ')"> \
+                ' + id + '</label>';
+            $("#listen-to").append(element);
+
+            if (checked) {
+                id = id.replace(":", "\\:");
+                $("#chk_box_" + id).trigger("click");
+            }
+        };
+
+
+        var onNewDataFunction = function(id, message) {
+
+            console.log("new data: " + id);
+
+            if (message instanceof ArrayBuffer) {
+                console.log("onNewData: id: " + id + ", message: " + message.byteLength);
+
+                // base64 message
+                var base64msg = btoa(String.fromCharCode.apply(null, new Uint8Array(message)));
+                addText(id + " :, compressed: " + base64msg);
+
+                var binData = new Uint8Array(message);
+                var gunzip = new Zlib.Gunzip(binData);
+                var plain = gunzip.decompress();
+
+                // Convert gunzipped byteArray back to ascii string:
+                var strData = String.fromCharCode.apply(null, plain);
+                addText(id + " :" + strData);
+
+            } else {
+                var outdent = $("#prettify").prop("checked") ? 2 : 0;
+                addText(id + " :" + JSON.stringify(message, null, outdent));
+            }
+        };
+
+        var subscribeForEvent = function(id) {
+            if (eventLst.indexOf(id) === -1) {
+                console.log("io on " + id);
+                io.on(id, function(msg) { onNewDataFunction(id, msg) });
+                eventLst.push(id);
+            }
+        };
+
+        var unsubscribeFromEvent = function(id) {
+            var index = eventLst.indexOf(id);
+            if (index === -1) {
+                return;
+            }
+            eventLst.splice(index, 1);
+            io.removeListener(id);
+        };
+
+        function reconnect() {
+            io.disconnect();
+            io.connect();
+            eventLst.forEach(function(id) {
+                io.removeListener(id);
+                io.on(id, function(msg) { onNewDataFunction(id, msg); });
+            });
+        }
+
+        event_list = [];
+
+        [
+            "connected",
+            "disconnect",
+            "test:getdata",
+            "assurf:weather",
+            "assurf:weatherhistory",
+            "assurf:yeildcomparator",
+            "assurf:solarenergygeneration",
+            "assurf:solarenergygenerationdrilldown",
+            "assurf:totalenergygeneration",
+            "assurf:equivalencies",
+            "assurf:realtimepower",
+            "assurf:currentpower",
+            "assurf:savings",
+            "assurf:energy",
+            "assurf:sources",
+            "assurf:facilitydrilldown",
+            "assurf:inputfacilitydrilldown",
+            "assurf:actualpredictedenergy",
+            "assurf:sunhours",
+            "assurf:sunhoursrealtime",
+            "assurf:carbonavoided",
+            "assurf:power",
+            "assurf:sunnyday",
+            "assurf:energytodaykpidrilldown",
+            "assurf:table"
+        ].forEach(function(id) {
+            addToListenList(id);
+        });
+
+        // It is better to listen them right away
+        $("#chk_box_connected").trigger("click");
+        $("#chk_box_disconnect").trigger("click");
+
+        io.on("emit", function(data) { console.log("emit" + data); });
+
+        function sendEvent() {
+            var event = document.getElementById("event");
+            var params = document.getElementById("params");
+
+            var request = {};
+
+            try {
+                request = JSON.parse(params.value);
+            } catch (e) {}
+            request.socketId = io.id;
+            var outdent = $("#prettify").prop("checked") ? 2 : 0;
+            addText(" -> " + event.value + ", data: " + JSON.stringify(request, null, outdent));
+
+            subscribeForEvent(event.value);
+            io.emit(event.value, request);
+        }
+
+
+        function clearTextArea() {
+            var area = document.getElementById("textarea");
+            area.value = "";
+        }
+
+        function authorize() {
+            $.ajax({
+                url: "/v1/users/login",
+                dataType: 'json',
+                type: 'post',
+                data: { "email": "ilya.shekhurin@brightergy.com", "password": "Brightergy1" },
+                success: function(data) {
+                    console.log("Successfully authorized");
+                },
+                error: function(xhr, status, err) {
+                    console.error(this.props.url, status, err.toString());
+                    if (callback) {
+                        callback(err);
+                    }
+                }
+            });
+        }
+
+        function changeListen(event, id) {
+            console.log("element: " + event.checked + " " + id);
+            if (event.checked) {
+                subscribeForEvent(id);
+            } else {
+                unsubscribeFromEvent(id);
+            }
+        }
+
+        // ----------------------------
+        // examples
+        // ----------------------------
+        function baseExample(eventName, obj) {
+            var event = document.getElementById("event");
+            event.value =  eventName;
+            if (obj) {
+                var params = document.getElementById("params");
+                params.value = JSON.stringify(obj);
+            }
+        }
+
+        function exampleWeather(e) {
+            var params = document.getElementById("params");
+            params.value = '{ "dateRange": {"from": "2015-01-01", "to": "2015-01-10" } }';
+            var event = document.getElementById("event");
+            event.value =  "assurf:weatherhistory";
+        }
+
+        function exampleFacility() {
+            var params = document.getElementById("params");
+            params.value = '{ "inspectedFacility": "549012531e94a8881e6e8e54" }';
+            var event = document.getElementById("event");
+            event.value =  "assurf:inputfacilitydrilldown"
+        }
+
+        function exampleActualPredictedEnergy() {
+            var params = document.getElementById("params");
+            params.value = '{"dateRange":"year","selectedFacilities": [],"selectedScopes":[]}';
+            var event = document.getElementById("event");
+            event.value =  "assurf:inputactualpredictedenergy"
+        }
+
+        function exampleGetPresentationData() {
+            var params = {
+                presentations: [
+                    "545f8e3a049d8b2700320784",
+                    "545f2abe649db6140038fc6a"
+                ]
+            };
+            baseExample("getPresentationData", params);
+            if (!$("#chk_box_presentationData").length) {
+                addToListenList("presentationData", true);
+            }
+        }
+
+        function exampleGetDeviceInfo() {
+            var params = {
+                presentations: [
+                    "545f8e3a049d8b2700320784",
+                    "545f2abe649db6140038fc6a"
+                ]
+            };
+            baseExample("present:getdeviceinfo", params);
+            var selector = "#chk_box_present\\:deviceinfo";
+            if (!$(selector).length) {
+                addToListenList("present:deviceinfo", true);
+            }
+        }
+
+        function exampleGetDeviceConfig() {
+            baseExample("present:deviceconfigs", "");
+            var id = "present:deviceconfigs";
+            var selector = "#chk_box_present\\:deviceconfigs";
+            if (!$(selector).length) {
+                addToListenList(id, true);
+            }
+        }
+
+
+    </script>
+</body>
+</html>

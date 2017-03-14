@@ -1,0 +1,67 @@
+.not-found.top-bar {
+    background-color: #f5f5f5;
+    .l-header {
+        margin: 0;
+        margin-left: -20px;
+        height: 61px;
+        color: #fff;
+        line-height: 61px;
+        float: left;
+        width: 25%;
+        background: url('/bl-bv-management/assets/img/logo2.png') 50% 50% #e16030 no-repeat;
+    }
+    .navbar-brand {
+        color: #000;
+        text-decoration: none;
+        padding: 20px;
+        font-size: 18px;
+        line-height: 20px;
+        display: inline-block;
+    }
+}
+
+.not-found.content {
+    margin-top: 100px;
+    text-align: center;
+    .robot {
+        display: inline-block;
+        background: url(/assets/img/robot.png);
+        background-size: 100% 100%;
+        width: 130px;
+        height: 300px;
+    }
+    .quote-message-container {
+        display: inline-block;
+        .quote-mark {
+            background: url(/assets/img/quote-mark.png);
+            background-size: 100% 100%;
+            width: 250px;
+            height: 200px;
+            padding-top: 40px;
+            font-style: italic;
+            .guide {
+                margin-left: 25px;
+                line-height: 1.5em;
+                width: 80%;
+                font-size: 16px;
+            }
+            .link,
+            .link:visited,
+            .link:focus,
+            .link:active {
+                color: #3498d8;
+                line-height: 0.5em;
+            }
+        }
+        .message {
+            padding-top: 40px;
+            color: #e3e3e3;
+            .title {
+                font-size: 120px;
+            }
+            .body {
+                font-size: 36px;
+            }
+        }
+    }
+}

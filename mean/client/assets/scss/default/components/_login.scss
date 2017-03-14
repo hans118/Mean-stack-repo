@@ -1,0 +1,483 @@
+/* Start Login Page Css ------------------------------------- */
+.login-body {
+    height: 100%;
+    width: 100%;
+    display: table;
+
+
+
+
+    .centered {
+        @include FontFamily_BentonSansLight();
+
+        display: table-cell;
+
+        width: 100%;
+        padding-top: 35px;
+
+        vertical-align: middle;
+
+        background: url('/assets/img/bg1.jpg');
+        background-repeat: no-repeat;
+        background-position: 50%;
+        background-size: cover;
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/assets/img/bg1.jpg',sizingMethod='scale');
+        -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/assets/img/bg1.jpg',sizingMethod='scale')";
+    }
+    .modal-dialog {
+        width: 600px;
+        margin: 30px auto;
+    }
+}
+
+.login-page {
+    @include FontFamily_BentonSansLight();
+    // display: table;
+    width: 768px;
+    margin: auto;
+    .alert {
+        color: #ff0000;
+        text-align: center;
+        padding: 0;
+        margin-bottom: 0;
+    }
+}
+
+.modal-login {
+    overflow: hidden;
+    position: relative;
+    left: 0;
+
+    // display: table-cell;
+    display: block;
+
+    padding: 10px 0 0;
+
+    vertical-align: middle;
+
+    border-radius: 0;
+    background: none;
+    .modal-header {
+        line-height: 68.7px;
+
+        height: 78px;
+        padding: 0;
+
+        border: none;
+        border-radius: 0;
+        background: url('/assets/img/logo.png') no-repeat;
+        background-position: 50% 50%;
+        text-shadow: 0 0 0 rgba(0, 0, 0, .8);
+
+        margin-bottom: 25px;
+        background-color: #d26731;
+        border-radius: 5px 5px 0 0;
+        .centered-caret {
+            position: absolute;
+            width: 24px;
+            height: 11px;
+            margin-left: -12px;
+            left: 50%;
+            background: url('/assets/img/arrow.png') no-repeat;
+            display: inline-block;
+            color: #d26731;
+            top: 78px;
+        }
+    }
+    .modal-body {
+        padding: 0 65px 80px;
+        // background: none;
+        .landing-box,
+        .social-box {
+            float: left;
+
+            width: 44%;
+            height: 100%;
+        }
+        .wrapper {
+            width: auto;
+            margin-top: 40px;
+            margin-left: 0;
+            .title {
+                font-size: 30px;
+                line-height: 30px;
+                text-align: center;
+                margin-bottom: 20px;
+                color: #f2672a;
+                @include FontFamily_BentonSansLight();
+            }
+        }
+        .social-box .wrapper {
+            margin-left: 15px;
+        }
+    }
+    .modal-footer {
+      padding: 10px 15px 8px;
+      margin-bottom: 0;
+      text-align: right;
+      border-radius: 0 0 4px 4px;
+      border-top: 0;
+      background: #fff;
+    }
+    .controls {
+        margin-left: 0;
+        > .checkbox:first-child {
+            padding-top: 0;
+            padding-left: 0;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        {
+          margin-bottom: 10px;
+        }
+    }
+    div.checker {
+        margin-left: 0;
+    }
+}
+
+.landing-box .controls input {
+    @include FontFamily_BentonSansLight();
+    font-size: 13px;
+    line-height: 22px;
+
+    width: 80%;
+    height: 30px;
+    padding: 2px 10px;
+
+    color: #666;
+    border: 1px solid #acacac;
+    &:-webkit-autofill {
+        color: #666;
+        background-color: rgb(250, 255, 189);
+        background-image: none;
+    }
+}
+
+.controls.error input {
+    border-color: #f2682c;
+}
+
+.modal-body p {
+    @include FontFamily_BentonSansLight();
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+
+    color: #7d7d7d;
+}
+
+.divider {
+    float: left;
+
+    margin-left: 24px;
+    .divider-l,
+    .divider-r {
+        width: 1px;
+        height: 49px;
+
+        background: #acacac;
+    }
+    .divider-l {
+        margin-top: 65px;
+    }
+    .divider-center {
+        @include FontFamily_BentonSansCond(Medium);
+        font-size: 16px;
+        line-height: 40px;
+
+        width: 40px;
+        height: 40px;
+        margin: 15px;
+        margin-left: -20px;
+
+        text-align: center;
+        letter-spacing: .02em;
+        text-transform: uppercase;
+
+        color: #e16030;
+        border: 1px solid #acacac;
+        border-radius: 50%;
+    }
+}
+
+.divider-p {
+    float: left;
+
+    margin-top: 45px;
+    .divider-l,
+    .divider-r {
+        float: left;
+
+        width: 42%;
+        height: 1px;
+
+        background: #acacac;
+    }
+    .divider-center {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 40px;
+
+        float: left;
+
+        width: 40px;
+        height: 40px;
+        margin: 2%;
+        margin-top: -20px;
+
+        text-align: center;
+        letter-spacing: .02em;
+        text-transform: uppercase;
+
+        color: #e16030;
+        border: 1px solid #acacac;
+        border-radius: 50%;
+    }
+}
+
+.landing-box {
+    .checker span {
+        margin-top: 5px;
+    }
+    .checkbox {
+        @include FontFamily_BentonSansLight();
+        font-size: 13px;
+
+        color: #666;
+    }
+    .form-actions {
+        margin-top: 12px;
+        padding: 0;
+
+        border-top: 0;
+        background: none;
+    }
+    a.forget {
+        @include FontFamily_BentonSansLight();
+        font-size: 13px;
+
+        margin-top: 7px;
+
+        cursor: pointer;
+        text-decoration: underline;
+
+        color: #666;
+        &:hover {
+            color: #333;
+        }
+    }
+    .remember {
+        height: 30px;
+    }
+    .create-account {
+        font-size: 14px;
+
+        margin-top: 10px;
+
+        color: #666;
+    }
+    .forgot-form {
+        .form-actions {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .controls p {
+            color: #a8aab1;
+        }
+    }
+    button.login-btn,
+    button.forgot-pass-btn {
+        @include FontFamily_BentonSansCond(Medium);
+        font-size: 16px;
+        line-height: 16px;
+        float: left;
+        width: 70px;
+        color: #fff;
+        border-radius: 2px;
+        border: 0;
+        text-shadow: 1px 1px 1px #666;
+        padding: 10px 0;
+        text-align: center;
+    }
+    button.login-btn {
+        background-color: #848f3a;
+    }
+    button.forgot-pass-btn {
+        background-color: #f2672a;
+    }
+}
+
+.create-account {
+    @include FontFamily_BentonSansLight();
+    font-size: 14px;
+    margin-top: 10px;
+    color: #666;
+    a {
+        @include FontFamily_BentonSansCond(Medium);
+        color: #3498d8;
+    }
+}
+
+.landing-box {
+    div.checker {
+        height: 34px;
+
+        color: #666;
+        span {
+            width: 20px;
+            height: 21px;
+
+            background-position: 0 -298px;
+        }
+        input[type='checkbox'] {
+            width: 21px;
+            height: 20px;
+        }
+    }
+    .forgot-form {
+        display: none;
+    }
+}
+
+.modal-login {
+    .modal-body .wrapper .forgot-form .title {
+        font-size: 30px;
+    }
+    div.checker {
+        &:active span,
+        &.active span {
+            background-position: -20px -298px;
+        }
+        &.focus span,
+        &:hover span {
+            background-position: -40px -298px;
+        }
+        &.focus:active span,
+        &:active:hover span,
+        &.active:hover span,
+        &.focus.active span {
+            background-position: -60px -298px;
+        }
+        span.checked {
+            background-position: -80px -298px;
+        }
+        &:active span.checked,
+        &.active span.checked {
+            background-position: -100px -298px;
+        }
+        &.focus span.checked,
+        &:hover span.checked {
+            background-position: -120px -298px;
+        }
+        &.focus:active span.checked,
+        &:hover:active span.checked {
+            background-position: -140px -298px;
+        }
+        &.active {
+            &:hover span.checked,
+            &.focus span.checked {
+                background-position: -140px -298px;
+            }
+        }
+    }
+    &.fade.in {
+        top: 4%;
+    }
+}
+
+#set-password-dlg {
+    .modal-body {
+        height: 100%;
+
+        background-color: #fff;
+    }
+    .landing-box {
+        float: none;
+
+        width: auto;
+        min-height: 0;
+        margin-top: 20px;
+
+        background-color: #fff;
+    }
+    .modal-body .wrapper {
+        width: 290px;
+        margin: auto;
+
+        input {
+            width: 100%;
+        }
+    }
+}
+/* responsive */
+@media (max-width: 767px) {
+    .centered {
+        padding-top: 0;
+    }
+    .login-page {
+        width: 100%;
+    }
+    .modal-login {
+        top: 0;
+
+        padding: 0;
+    }
+    .modal-login .modal-header {
+        height: 50px;
+        margin-top: 0;
+
+        background: url('/assets/img/logo2.png') 10% 50% #e16030 no-repeat;
+        background-position: center center;
+    }
+    .modal-login .modal-body {
+        padding: 0 65px;
+    }
+    .modal-login .modal-body .landing-box,
+    .modal-login .modal-body .social-box {
+        width: 100%;
+    }
+    .landing-box .controls input {
+        width: 98%;
+    }
+    .modal-login .modal-body .social-box {
+        margin-top: 20px;
+    }
+    .modal-login .modal-body .social-box .wrapper {
+        width: 100%;
+        margin: 0;
+    }
+}
+@media (max-width: 640px) and (min-width: 480px) {
+    .divider-p .divider-l,
+    .divider-p .divider-r {
+        width: 41%;
+    }
+}
+@media (max-width: 480px) {
+    .modal-login .modal-body .wrapper {
+        margin-top: 20px;
+    }
+    .divider-p {
+        margin-top: 30px;
+    }
+
+    .modal-login .modal-body {
+        padding: 0 30px;
+    }
+    .divider-p .divider-l,
+    .divider-p .divider-r {
+        width: 40%;
+    }
+}
+@media (max-width: 320px) {
+    .modal-login .modal-body {
+        margin-left: -15px;
+        padding: 0 25px;
+    }
+    .divider-p .divider-l,
+    .divider-p .divider-r {
+        width: 38%;
+    }
+}

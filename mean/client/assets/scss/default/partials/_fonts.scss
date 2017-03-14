@@ -1,0 +1,42 @@
+/* Benton Sans Cond(Light, Normal, Medium, Bold), Benton Sans Light(normal, italic),  Benton Sans(normal, italic) */
+
+/* Benton Sans Cond(Light, Normal, Medium, Bold) */
+@mixin FontFamily_BentonSansCond($weight: Normal) {
+  @if ($weight == Light) or ($weight == Medium) {
+    font-family: "Benton Sans Cond #{$weight}";
+    font-weight: normal;
+  } @else if ($weight == Bold){
+    font-family: "Benton Sans Cond";
+    font-weight: bold;
+  } @else {
+    font-family: "Benton Sans Cond";
+    font-weight: normal;
+  }
+}
+
+/* Benton Sans Light(normal, italic) */
+@mixin FontFamily_BentonSansLight($style: normal) {
+  font-family: "Benton Sans Light";
+  @if ($style == italic) or ($style == normal) {
+    font-style: $style;
+  } @else {
+    font-style: normal;
+  }
+}
+
+/* Benton Sans(normal, italic) */
+@mixin FontFamily_BentonSans($style: normal) {
+  font-family: "Benton Sans";
+  @if ($style == italic) or ($style == normal) {
+    font-style: $style;
+  } @else {
+    font-style: normal;
+  }
+}
+
+/* Benton Sans Medium */
+@mixin FontFamily_BentonSansMedium() {
+  font-family: "Benton Sans Medium";
+  font-style: normal;
+  font-weight: 400;
+}
